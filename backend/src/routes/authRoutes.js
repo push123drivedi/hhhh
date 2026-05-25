@@ -1,94 +1,17 @@
-import Staff from "../models/Staff.js";
-import User from "../models/User.js";
-import { signToken } from "../utils/token.js";
+import express from "express";
 
-export async function createAdmin(req, res) {
-  try {
-    const existing = await User.findOne({
-      email: "admin@svms.edu"
-    });
+import {
+  createAdmin,
+  login,
+  me
+} from "../controllers/authController.js";
 
-    if (existing) {
-      return res.json({
-        message: "Admin already exists"
-      });
-    }
+const router = express.Router();
 
-    const admin = await User.create({
-      name: "Admin",
-      email: "admin@svms.edu",
-      password: "Admin@123",
-      role: "admin"
-    });
+router.post("/login", login);
 
-    return res.json({
-      message: "Admin created successfully",
-      admin
-    });
-  } catch (error) {
-    console.error(error);
+router.get("/me", me);
 
-    return res.status(500).json({
-      message: error.message
-    });
-  }
-}
+router.get("/create-admin", createAdmin);
 
-export async function login(req, res) {
-  try {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email }).select("+password");
-
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({
-        message: "Invalid email or password"
-      });
-    }
-
-    const staffProfile = await Staff.findOne({
-      user: user._id
-    });
-
-    return res.json({
-      token: signToken(user),
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        staffId: staffProfile?._id
-      }
-    });
-  } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({
-      message: error.message
-    });
-  }
-}
-
-export async function me(req, res) {
-  try {
-    const staffProfile = await Staff.findOne({
-      user: req.user._id
-    });
-
-    return res.json({
-      user: {
-        id: req.user._id,
-        name: req.user.name,
-        email: req.user.email,
-        role: req.user.role,
-        staffId: staffProfile?._id
-      }
-    });
-  } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({
-      message: error.message
-    });
-  }
-}
+export default router;
