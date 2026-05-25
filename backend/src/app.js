@@ -19,8 +19,8 @@ app.use(helmet());
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://svms-duty-management-97080.netlify.app"
+      "https://svms-duty-management-97080.netlify.app",
+      "http://localhost:5173"
     ],
     credentials: true
   })
@@ -30,10 +30,13 @@ app.use(express.json());
 
 app.use(morgan("dev"));
 
-app.get("/api/health", (_req, res) => {
+app.get("/", (req, res) => {
+  res.send("Backend Running");
+});
+
+app.get("/api/health", (req, res) => {
   res.json({
-    status: "ok",
-    service: "Smart Staff Duty API"
+    status: "ok"
   });
 });
 
@@ -46,7 +49,7 @@ app.use("/api/staff", staffRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/reports", reportRoutes);
 
-app.use((err, _req, res, _next) => {
+app.use((err, req, res, next) => {
   console.error(err);
 
   res.status(500).json({
