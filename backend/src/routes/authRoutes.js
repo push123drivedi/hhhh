@@ -1,9 +1,17 @@
 import express from "express";
-import { login, me } from "../controllers/authController.js";
-import { protect } from "../middleware/auth.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+
+import {
+  createAdmin,
+  login,
+  me
+} from "../controllers/authController.js";
 
 const router = express.Router();
-router.post("/login", asyncHandler(login));
-router.get("/me", protect, asyncHandler(me));
+
+router.post("/login", login);
+
+router.get("/me", me);
+
+router.get("/create-admin", createAdmin);
+
 export default router;
