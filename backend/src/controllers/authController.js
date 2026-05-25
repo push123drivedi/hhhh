@@ -1,14 +1,14 @@
-import Staff from "../models/Staff.js";
 import User from "../models/User.js";
+import Staff from "../models/Staff.js";
 import { signToken } from "../utils/token.js";
 
 export async function createAdmin(req, res) {
   try {
-    const existing = await User.findOne({
+    const exists = await User.findOne({
       email: "admin@svms.edu"
     });
 
-    if (existing) {
+    if (exists) {
       return res.json({
         message: "Admin already exists"
       });
@@ -26,8 +26,6 @@ export async function createAdmin(req, res) {
       admin
     });
   } catch (error) {
-    console.error(error);
-
     res.status(500).json({
       message: error.message
     });
@@ -75,5 +73,4 @@ export async function me(req, res) {
       staffId: staffProfile?._id
     }
   });
-}
 }
