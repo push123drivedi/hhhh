@@ -16,12 +16,18 @@ const app = express();
 
 app.use(helmet());
 
-app.use(cors({
-  origin: "https://svms-duty-management-97080.netlify.app",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://svms-duty-management-97080.netlify.app"
+    ],
+    credentials: true
+  })
+);
 
 app.use(express.json());
+
 app.use(morgan("dev"));
 
 app.get("/api/health", (_req, res) => {
