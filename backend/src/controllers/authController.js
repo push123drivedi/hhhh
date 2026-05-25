@@ -2,14 +2,53 @@ import Staff from "../models/Staff.js";
 import User from "../models/User.js";
 import { signToken } from "../utils/token.js";
 
+export async function createAdmin(req, res) {
+  try {
+    const existing = await User.findOne({
+      email: "admin@svms.edu"
+    });
+
+    if (existing) {
+      return res.json({
+        message: "Admin already exists"
+      });
+    }
+
+    const admin = await User.create({
+      name: "Admin",
+      email: "admin@svms.edu",
+      password: "Admin@123",
+      role: "admin"
+    });
+
+    res.json({
+      message: "Admin created successfully",
+      admin
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: error.message
+    });
+  }
+}
+
 export async function login(req, res) {
   const { email, password } = req.body;
+
   const user = await User.findOne({ email }).select("+password");
+
   if (!user || !(await user.comparePassword(password))) {
-    return res.status(401).json({ message: "Invalid email or password" });
+    return res.status(401).json({
+      message: "Invalid email or password"
+    });
   }
 
-  const staffProfile = await Staff.findOne({ user: user._id });
+  const staffProfile = await Staff.findOne({
+    user: user._id
+  });
+
   res.json({
     token: signToken(user),
     user: {
@@ -23,7 +62,10 @@ export async function login(req, res) {
 }
 
 export async function me(req, res) {
-  const staffProfile = await Staff.findOne({ user: req.user._id });
+  const staffProfile = await Staff.findOne({
+    user: req.user._id
+  });
+
   res.json({
     user: {
       id: req.user._id,
@@ -33,4 +75,5 @@ export async function me(req, res) {
       staffId: staffProfile?._id
     }
   });
+}
 }
