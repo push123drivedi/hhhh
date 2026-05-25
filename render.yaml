@@ -7,20 +7,25 @@ services:
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/health
+
     envVars:
       - key: NODE_ENV
         value: production
+
       - key: JWT_EXPIRES_IN
         value: 7d
+
       - key: JWT_SECRET
         generateValue: true
+
       - key: MONGO_URI
         sync: false
+
       - key: CLIENT_URL
         fromService:
           type: web
           name: svms-duty-frontend
-         property: host
+          property: host
 
   - type: web
     name: svms-duty-frontend
@@ -28,11 +33,14 @@ services:
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
+
     envVars:
       - key: VITE_API_URL
         value: https://svms-duty-backend.onrender.com/api
+
       - key: VITE_SOCKET_URL
         value: https://svms-duty-backend.onrender.com
+
     routes:
       - type: rewrite
         source: /*
