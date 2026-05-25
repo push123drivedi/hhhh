@@ -20,7 +20,7 @@ services:
         fromService:
           type: web
           name: svms-duty-frontend
-          property: url
+         property: host
 
   - type: web
     name: svms-duty-frontend
