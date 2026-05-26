@@ -4,10 +4,17 @@ let socket;
 
 export function getSocket() {
   if (!socket) {
-    socket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:5000", {
-      auth: { token: localStorage.getItem("token") },
-      autoConnect: false
-    });
+    socket = io(
+      import.meta.env.VITE_SOCKET_URL ||
+      "https://svms-duty-backend.onrender.com",
+      {
+        auth: {
+          token: localStorage.getItem("token")
+        },
+        autoConnect: false
+      }
+    );
   }
+
   return socket;
 }
