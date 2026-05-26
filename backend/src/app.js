@@ -31,12 +31,13 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-  res.send("Backend Running");
+  res.send("SVMS Backend Running");
 });
 
 app.get("/api/health", (req, res) => {
   res.json({
-    status: "ok"
+    status: "ok",
+    service: "SVMS Backend"
   });
 });
 
