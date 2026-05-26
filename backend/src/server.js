@@ -5,7 +5,7 @@ import { Server } from "socket.io";
 import app from "./app.js";
 import { connectDb } from "./config/db.js";
 import { startSchedulers } from "./services/scheduler.js";
-import { configureSockets } from "./sockets/index.js";
+// import { configureSockets } from "./sockets/index.js";
 
 const port = process.env.PORT || 5000;
 
@@ -22,7 +22,7 @@ const io = new Server(server, {
   }
 });
 
-configureSockets(io);
+// configureSockets(io);
 
 connectDb()
   .then(() => {
