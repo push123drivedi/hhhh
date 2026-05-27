@@ -1,26 +1,44 @@
-import express from "express";
-import cors from "cors";
+import "dotenv/config";
+import http from "http";
+import { Server } from "socket.io";
 
-import authRoutes from "./routes/authRoutes.js";
+import app from "./app.js";
+import { connectDb } from "./config/db.js";
+import { startSchedulers } from "./services/scheduler.js";
 
-const app = express();
+const port = process.env.PORT || 10000;
 
-app.use(
-  cors({
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
     origin: [
       "http://localhost:5173",
       "https://hhhh-fcqaypra6-push123drivedis-projects.vercel.app"
     ],
+    methods: ["GET", "POST"],
     credentials: true
-  })
-);
-
-app.use(express.json());
-
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
+  }
 });
 
-app.use("/api/auth", authRoutes);
+async function startServer() {
+  try {
+    console.log("Connecting MongoDB...");
 
-export default app;
+    await connectDb();
+
+    console.log("MongoDB Connected");
+
+    startSchedulers();
+
+    server.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+
+  } catch (error) {
+    console.error("SERVER ERROR:");
+    console.error(error);
+  }
+}
+
+startServer();
