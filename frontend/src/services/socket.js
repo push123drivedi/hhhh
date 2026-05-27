@@ -1,20 +1,10 @@
-import { io } from "socket.io-client";
-
-let socket;
+// src/services/socket.js
 
 export function getSocket() {
-  if (!socket) {
-    socket = io(
-      import.meta.env.VITE_SOCKET_URL ||
-      "https://svms-duty-backend.onrender.com",
-      {
-        auth: {
-          token: localStorage.getItem("token")
-        },
-        autoConnect: false
-      }
-    );
-  }
-
-  return socket;
+  return {
+    connect: () => {},
+    disconnect: () => {},
+    on: () => {},
+    emit: () => {}
+  };
 }
