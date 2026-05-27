@@ -11,7 +11,7 @@ app.use(
   cors({
     origin: [
   "http://localhost:5173",
-  "https://hhhh-phi-neon.vercel.app"
+"https://hhhh-phi-neon.vercel.app"
 ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
