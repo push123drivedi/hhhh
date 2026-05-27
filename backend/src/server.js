@@ -15,7 +15,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "https://hhhh-fcqypra6-push123drivedis-projects.vercel.app"
+     https://hhhh-fcqaypra6-push123drivedis-projects.vercel.app
     ],
     methods: ["GET", "POST"],
     credentials: true
