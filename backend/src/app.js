@@ -10,9 +10,9 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://hhhh-fcqaypra6-push123drivedis-projects.vercel.app"
-    ],
+  "http://localhost:5173",
+  "https://hhhh-phi-neon.vercel.app"
+],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
