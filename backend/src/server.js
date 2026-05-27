@@ -14,8 +14,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      "https://svms-duty-management-97080.netlify.app",
-      "http://localhost:5173"
+      "http://localhost:5173",
+      "https://hhhh-fcqypra6-push123drivedis-projects.vercel.app"
     ],
     methods: ["GET", "POST"],
     credentials: true
